@@ -26,3 +26,27 @@ layout: default
   {% endif %}
 {% endfor %}
 </ul>
+</br>
+<b> Charlas previas </b>
+<ul class="conference-list list-unstyled">
+{% assign sorted_conferences = (site.conferences | sort: 'date_start') %}
+{% assign today =  ((site.time | date: "%Y-%m-%d" ) | date: "%s" ) %}
+{% for conference in sorted_conferences %}
+  {% assign date_end = (conference.date_end | date: "%s") %}
+  {% if today > date_end %}
+  <li>
+    {{ conference.date_start | date: "%Y-%m-%d" }}&nbsp;
+    <a class="post-link" href="{{ conference.website }}">{{ conference.name }}</a>
+    {% if conference.location %}
+    &nbsp;<small>{{ conference.location }}</small>
+    {% endif %}
+    {% assign cfp_start = (conference.cfp_start | date: "%s") %}
+    {% assign cfp_end = (conference.cfp_end | date: "%s") %}
+    {% if today >= cfp_start &&  today >= cfp_end  %}
+      <a href="{% if conference.cfp_site %}{{ conference.cfp_site }}{% else %}{{ conference.website }}{% endif %}"><span class="label label-success">Recibiendo propuestas para charlas</span></a>
+    {% endif %}
+    {% assign date_start = (conference.date_start | date: "%s") %}
+  </li>
+  {% endif %}
+{% endfor %}
+</ul>
