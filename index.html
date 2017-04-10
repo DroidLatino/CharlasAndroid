@@ -37,15 +37,13 @@ layout: default
   <li>
     {{ conference.date_start | date: "%Y-%m-%d" }}&nbsp;
     <a class="post-link" href="{{ conference.website }}">{{ conference.name }}</a>
-    {% if conference.location %}
-    &nbsp;<small>{{ conference.location }}</small>
-    {% endif %}
-    {% assign cfp_start = (conference.cfp_start | date: "%s") %}
-    {% assign cfp_end = (conference.cfp_end | date: "%s") %}
-    {% if today >= cfp_start &&  today >= cfp_end  %}
-      <a href="{% if conference.cfp_site %}{{ conference.cfp_site }}{% else %}{{ conference.website }}{% endif %}"><span class="label label-success">Recibiendo propuestas para charlas</span></a>
-    {% endif %}
-    {% assign date_start = (conference.date_start | date: "%s") %}
+      {%if conference.video != null%}
+        &nbsp;[<a href="{{ conference.video }}">Video</a>]&nbsp;
+      {% endif %}
+
+      {%if conference.slides != null%}
+        &nbsp;[<a href="{{ conference.slides }}">Diapositivas</a>]&nbsp;
+      {% endif %}
   </li>
   {% endif %}
 {% endfor %}
